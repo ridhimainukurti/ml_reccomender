@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  api:
+    build:
+      context: ./api
+    container_name: ml-recommender-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./model:/app/../model
+      - ./data:/app/../data
+    # Optional: set environment variables if needed
+    # environment:
+    #   - SOME_ENV_VAR=some_value
+    restart: unless-stopped
+  prometheus:
+    image: prom/prometheus
+    volumes: 
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports: 
+      - "9090:9090"
